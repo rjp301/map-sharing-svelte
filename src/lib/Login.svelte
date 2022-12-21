@@ -3,25 +3,28 @@
 
   let username: string;
   let password: string;
-
-  let usernameError: string = "";
-  let passwordError: string = "";
+  let error: string;
 
   async function login() {
-    const user = await pb
-      .collection("users")
-      .authWithPassword(username, password);
-    console.log(user);
+    try {
+      const user = await pb
+        .collection("users")
+        .authWithPassword(username, password);
+      console.log(user);
+      error = "";
+    } catch (err) {
+      error = err.data.message;
+      console.log(err.data);
+    }
   }
 
   async function signUp() {
     try {
       const data = { username, password, passwordConfirm: password };
-      const createdUser = await pb.collection("users").create(data);
+      await pb.collection("users").create(data);
       await login();
     } catch (err) {
-      usernameError = err.data.data.username.message;
-      passwordError = err.data.data.password.message;
+      error = err.data.message;
       console.log(err.data);
     }
   }
@@ -32,19 +35,39 @@
 </script>
 
 {#if $currentUser}
-  <p>
-    Signed in as {$currentUser.username}
-    <button on:click={signOut}>Sign out</button>
-  </p>
+  <div class="flex gap-4 items-center">
+    <p class="dark:text-slate-500">Signed in as {$currentUser.username}</p>
+    <button
+      class="dark:bg-slate-600 bg-slate-50 rounded px-4 py-1"
+      on:click={signOut}>Sign out</button
+    >
+  </div>
 {:else}
-  <form on:submit|preventDefault>
-    <input type="text" placeholder="Username" bind:value={username} />
-    {#if usernameError} <div>{usernameError}</div> {/if}
-    
-    <input type="password" placeholder="Password" bind:value={password} />
-    {#if passwordError} <div>{passwordError}</div> {/if}
-    
-    <button on:click={signUp}>Sign Up</button>
-    <button on:click={login}>Login</button>
-  </form>
+  <div class="flex flex-col">
+    <form on:submit|preventDefault class="flex gap-4 items-center">
+      <input
+        class="min-w-min text-center rounded dark:bg-slate-500"
+        type="text"
+        placeholder="Username"
+        bind:value={username}
+      />
+      <input
+        class="min-w-min text-center rounded dark:bg-slate-500"
+        type="password"
+        placeholder="Password"
+        bind:value={password}
+      />
+      <button
+        class="dark:bg-slate-600 bg-slate-50 rounded px-4 py-1"
+        on:click={login}>Login</button
+      >
+      <button
+        class="dark:bg-amber-800 bg-amber-50 rounded px-4 py-1"
+        on:click={signUp}>Sign Up</button
+      >
+    </form>
+    {#if error}
+      <p class="text-orange-500 text-sm">{error}</p>
+    {/if}
+  </div>
 {/if}
