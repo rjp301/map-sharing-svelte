@@ -5,12 +5,15 @@
   import { currentUser } from "./lib/pocketbase";
 </script>
 
-<nav class="flex justify-between items-center p-4 shadow-lg bg-slate-200 dark:bg-slate-700">
-  <h1 class="text-xl font-bold">Map Sharing</h1>
-  <Login />
-</nav>
-
 <!-- <Map /> -->
-{#if $currentUser}
+{#if !$currentUser}
+  <Login />
+{:else}
+  <nav
+    class="flex justify-between items-center p-4 shadow-lg bg-slate-200 dark:bg-slate-700"
+  >
+    <h1 class="text-xl font-bold">Map Sharing</h1>
+    <Login />
+  </nav>
   <Maps />
 {/if}
