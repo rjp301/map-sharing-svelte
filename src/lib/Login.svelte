@@ -46,7 +46,7 @@
   <div class="w-full h-screen flex items-center justify-center">
     <form
       on:submit|preventDefault
-      class="flex flex-col gap-4 bg-slate-700 px-8 py-6"
+      class="flex flex-col gap-4 dark:bg-slate-700 bg-slate-200 px-8 py-6 rounded shadow-lg"
     >
       <input
         class="min-w-min text-center rounded dark:bg-slate-500"

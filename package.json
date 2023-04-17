@@ -23,6 +23,8 @@
   },
   "dependencies": {
     "leaflet": "^1.9.3",
-    "pocketbase": "^0.9.0"
+    "pocketbase": "^0.9.0",
+    "svelte-routing": "^1.6.0",
+    "timeago.js": "^4.0.2"
   }
 }

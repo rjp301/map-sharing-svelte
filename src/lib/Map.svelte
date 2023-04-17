@@ -2,6 +2,8 @@
   import L from "leaflet";
   import { onMount } from "svelte";
   import mapTiles from "./mapTiles.json";
+  
+  export let id = ""
 
   onMount(() => {
     const map = L.map("map", {
@@ -12,6 +14,7 @@
     const mapTile = mapTiles[0];
     L.tileLayer(mapTile.url, { attribution: mapTile.attribution }).addTo(map);
   });
+
 </script>
 
 <div id="map" />
